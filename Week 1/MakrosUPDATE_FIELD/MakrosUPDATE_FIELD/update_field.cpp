@@ -3,7 +3,52 @@
 
 using namespace std;
 
-#define UPDATE_FIELD(ticket, field, values)  // Ð ÐµÐ°Ð»Ð¸Ð·ÑƒÐ¹Ñ‚Ðµ ÑÑ‚Ð¾Ñ‚ Ð¼Ð°ÐºÑ€Ð¾Ñ, Ð° Ñ‚Ð°ÐºÐ¶Ðµ Ð½ÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ñ‹Ðµ Ð¾Ð¿ÐµÑ€Ð°Ñ‚Ð¾Ñ€Ñ‹ Ð´Ð»Ñ ÐºÐ»Ð°ÑÑÐ¾Ð² Date Ð¸ Time
+#define UPDATE_FIELD(ticket, field, values)  try {      \
+        istringstream is(values.at(#field));            \
+        is >> ticket.field;                             \
+        } catch(exception& ex) {}       
+
+bool operator == (const Date& lhs, const Date& rhs) {
+    return tie(lhs.year, lhs.month, lhs.day) == tie(rhs.year, rhs.month, rhs.day);
+}
+
+bool operator == (const Time& lhs, const Time& rhs) {
+    return tie(lhs.hours, lhs.minutes) == tie(rhs.hours, rhs.minutes);
+}
+
+void operator >> (istringstream& is, Date& date) {
+    string temp1, temp2, temp3;
+    
+    getline(is, temp1, '-');
+    getline(is, temp2, '-');
+    getline(is, temp3, '-');
+    
+    date.year = stoi(temp1);
+    date.month = stoi(temp2);
+    date.day = stoi(temp3);
+}
+
+void operator >> (istringstream& is, Time& time) {
+    string temp1, temp2;
+    
+    getline(is, temp1, ':');
+    getline(is, temp2, ':');
+    
+    time.hours = stoi(temp1);
+    time.minutes = stoi(temp2);
+
+}
+
+ostream& operator << (ostream& os, const Date& date) {
+    os << date.year << " " << date.month << " " << date.day;
+    return os;
+}
+
+ostream& operator << (ostream& os, const Time& time) {
+    os << time.hours << ":" << time.minutes;
+    return os;
+}
+
 
 void TestUpdate() {
   AirlineTicket t;
