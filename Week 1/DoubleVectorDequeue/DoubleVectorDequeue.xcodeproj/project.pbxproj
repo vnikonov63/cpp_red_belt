@@ -25,6 +25,7 @@
 /* Begin PBXFileReference section */
 		8C707EC825B05A1900600AAF /* DoubleVectorDequeue */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = DoubleVectorDequeue; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C707ECB25B05A1900600AAF /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		8C707ED425B0612C00600AAF /* test_runner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = test_runner.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +59,7 @@
 			isa = PBXGroup;
 			children = (
 				8C707ECB25B05A1900600AAF /* main.cpp */,
+				8C707ED425B0612C00600AAF /* test_runner.h */,
 			);
 			path = DoubleVectorDequeue;
 			sourceTree = "<group>";
