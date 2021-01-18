@@ -17,14 +17,17 @@ ForwardIterator max_element_if(ForwardIterator first, ForwardIterator last, Unar
     if (first == last) {
         return last;
     }
-    ForwardIterator answer = find_if(first, last, pred);
+    //ForwardIterator answer = find_if(first, last, pred);
+    // for solution commented above it is necessary to delete flag == false and put flag = true right beneath
+    // the statement [if(pred(*first) == true)]
+    ForwardIterator answer = first;
     bool flag = false;
     while(first != last) {
         if (pred(*first) == true) {
-            flag = true;
-            if (*first > *answer) {
+            if (*first > *answer || flag == false) {
                 answer = first;
             }
+            flag = true;
         }
         ++first;
     }
