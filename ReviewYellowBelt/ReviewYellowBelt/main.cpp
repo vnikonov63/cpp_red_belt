@@ -12,23 +12,27 @@ using namespace std;
 
 template<typename ForwardIterator, typename UnaryPredicate>
 ForwardIterator max_element_if(ForwardIterator first, ForwardIterator last, UnaryPredicate pred) {
+    //return find_if(first, last, pred);
+    
     if (first == last) {
         return last;
     }
-    auto currMax = *first;
-    ForwardIterator answer = first;
+    ForwardIterator answer = find_if(first, last, pred);
     bool flag = false;
     while(first != last) {
-        if (pred(*first)) {
-            if (*first > currMax) {
-                currMax = *first;
+        if (pred(*first) == true) {
+            flag = true;
+            if (*first > *answer) {
                 answer = first;
             }
-            flag = true;
         }
-        first++;
+        ++first;
     }
-    return flag ? answer : last;
+    if (flag) {
+        return answer;
+    } else {
+        return last;
+    }
 }
 
 void TestUniqueMax() {
@@ -76,14 +80,27 @@ void TestSeveralMax() {
 void TestNoMax() {
   const vector<int> empty;
   const string str = "Non-empty string";
+  const string str1 = "l";
+  vector<int> numbers(10);
+  iota(numbers.begin(), numbers.end(), 1);
 
   auto AlwaysTrue = [](int) {
     return true;
   };
+  
+  auto AlwaysFalseInt = [](int) {
+        return false;
+    };
+    
   Assert(
     max_element_if(empty.begin(), empty.end(), AlwaysTrue) == empty.end(),
     "Expect end for empty container"
   );
+    
+    Assert(
+      max_element_if(numbers.begin(), numbers.end(), AlwaysFalseInt) == numbers.end(),
+      "Expect end for empty container"
+    );
 
   auto AlwaysFalse = [](char) {
     return false;
@@ -92,6 +109,10 @@ void TestNoMax() {
     max_element_if(str.begin(), str.end(), AlwaysFalse) == str.end(),
     "Expect end for AlwaysFalse predicate"
   );
+    Assert(
+      max_element_if(str1.begin(), str1.end(), AlwaysFalse) == str1.end(),
+      "Expect end for AlwaysFalse predicate"
+    );
 }
 
 int main() {
