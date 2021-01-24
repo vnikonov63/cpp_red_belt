@@ -9,6 +9,10 @@ using namespace std;
 class BookReader {
 public:
     void Read(int user, int page) {
+        if (userInfo.count(user) > 0) {
+            int temp = userInfo[user];
+            readCount[temp]--;
+        }
         userInfo[user] = page;
         readCount[page]++;
     }
@@ -21,6 +25,7 @@ public:
         } else {
             auto it = readCount.lower_bound(userInfo[user]);
             
+            
             int sum = 0;
             if (it == readCount.begin()) {
                 return 0;
@@ -29,7 +34,7 @@ public:
                 --it;
                 sum += it->second;
             } while(it != readCount.begin());
-            return (sum * 1.0) / userInfo.size() ;
+            return (sum * 1.0) / (userInfo.size() - 1) ;
         }
     }
     
