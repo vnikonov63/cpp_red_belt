@@ -2,30 +2,33 @@
 #include <map>
 #include <string>
 #include <iomanip>
-#include <sstream>;
+#include <sstream>
+#include <vector>
 
 using namespace std;
 
 class BookReader {
 public:
+    
+    BookReader() : userInfoVector(100000), numberPeople(0) {}
     void Read(int user, int page) {
-        if (userInfo.count(user) > 0) {
-            int temp = userInfo[user];
+        if (userInfoVector[user] != 0) {
+            int temp = userInfoVector[user];
             readCount[temp]--;
+        } else {
+            numberPeople++;
         }
-        userInfo[user] = page;
+        userInfoVector[user] = page;
         readCount[page]++;
     }
     
     double Cheer(int user) {
-        if (userInfo.count(user) == 0) {
+        if (userInfoVector[user] == 0) {
             return 0;
-        } else if (userInfo.size() == 1) {
+        } else if (numberPeople == 1) {
             return 1;
         } else {
-            auto it = readCount.lower_bound(userInfo[user]);
-            
-            
+            auto it = readCount.lower_bound(userInfoVector[user]);
             int sum = 0;
             if (it == readCount.begin()) {
                 return 0;
@@ -34,13 +37,14 @@ public:
                 --it;
                 sum += it->second;
             } while(it != readCount.begin());
-            return (sum * 1.0) / (userInfo.size() - 1) ;
+            return (sum * 1.0) / (numberPeople - 1) ;
         }
     }
     
 private:
-    map<int, int> userInfo;
+    vector<int> userInfoVector;
     map<int, int> readCount;
+    int numberPeople;
 };
 
 int main() {
@@ -51,18 +55,6 @@ int main() {
     
     int operationCount;
     cin >> operationCount;
-    
-    /*
-    stringstream output;
-    stringstream input;
-    
-    for (int i = 0; i < operationCount; ++i) {
-        string line;
-        getline(cin, line);
-        input << line;
-        input << '\n';
-    }*/
-    stringstream output;
     
     for (int i = 0; i < operationCount; ++i) {
         string command;
@@ -75,9 +67,9 @@ int main() {
         if (command == "CHEER") {
             int user;
             cin >> user;
-            output << myBookReader.Cheer(user) << '\n';
+            cout << myBookReader.Cheer(user) << '\n';
         }
     }
-    cout << output.str() << endl;
+
     return 0;
 }
