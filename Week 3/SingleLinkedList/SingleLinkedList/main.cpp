@@ -35,27 +35,19 @@ public:
         if (node == nullptr) {
             PushFront(value);
         } else {
-            Node* temp = head;
-            while (temp != node) {
-                temp = temp->next;
-            }
             Node* newNode = new Node(value);
-            newNode->next = temp->next;
-            temp->next = newNode;
+            newNode->next = node->next;
+            node->next = newNode;
         }
     }
     void RemoveAfter(Node* node) {
         if (node == nullptr) {
-            return;
+            PopFront();
         } else if (node->next == nullptr) {
             return;;
         } else {
-            Node* temp = head;
-            while (temp != node) {
-                temp = temp->next;
-            }
-            Node* toDelete = temp->next;
-            temp->next = temp->next->next;
+            Node* toDelete = node->next;
+            node->next = node->next->next;
             delete toDelete;
         }
     }
